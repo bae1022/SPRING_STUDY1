@@ -4,6 +4,10 @@ import hello.hellospring.domain.Member;
 
 import java.util.*;
 
+/*
+동시성 문제 고려 x, 실무에서는 ConcurrentHashMap, AtomicLong
+ */
+
 public class MemoryMemberRepository implements MemberRepository{
 
     private static Map<Long, Member> store = new HashMap<>();
@@ -33,4 +37,10 @@ public class MemoryMemberRepository implements MemberRepository{
     public List<Member> findAll() {
         return new ArrayList<>(store.values());
     }
+
+    public void clearStore(){
+        store.clear();
+    }
+
+
 }

@@ -1,42 +1,39 @@
 package hello.hellospring.service;
 
 import hello.hellospring.domain.Member;
+import hello.hellospring.repository.MemberRepository;
 import hello.hellospring.repository.MemoryMemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MemberServiceTest {
+@SpringBootTest
+@Transactional //Transaction 먼저 실행하고 테스트가 끝나면 Rollback
+class MemberServiceIntegrationTest {
+    // 통합테스트
+
     /**
      * Ctrl + Shift + T 자동 테스트 생성
      */
-    // 단위테스트
 
+    @Autowired
     MemberService memberService;
-    MemoryMemberRepository memberRepository;
 
-    @BeforeEach
-    public void beforeEach(){ //테스트 실행할 때마다 각각 생성성
-       memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
-    }
-
-    @AfterEach // 일종의 콜백 메소드
-    public void afterEach(){
-        memberRepository.clearStore(); // 테스트 실행이 끝날때마다 repository 지움 (순서가 상관이 없게 된다.)
-    }
-
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
     void 회원가입() { // 이름 한글로도 가능
 
         //given -> 무언가가 주어짐
         Member member = new Member();
-        member.setName("hello");
+        member.setName("spring");
 
         //when -> 실행했을 때
         Long saveId = memberService.join(member);

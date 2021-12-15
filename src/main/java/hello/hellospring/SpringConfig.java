@@ -21,23 +21,30 @@ public class SpringConfig {
 //        this.dataSource = dataSource;
 //    }
 
-    private EntityManager em;
+//    private EntityManager em;
 
-    @Autowired
-    public SpringConfig(EntityManager em) {
-        this.em = em;
+//    @Autowired
+//    public SpringConfig(EntityManager em) {
+//        this.em = em;
+//    }
+
+    private final MemberRepository memberRepository;
+
+//    @Autowired 하나라서 생략해도 무관
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @Bean
     public MemberService memberService(){
-        return new MemberService(memberRepository());
+        return new MemberService(memberRepository);
     }
 
-    @Bean
-    public MemberRepository memberRepository(){
+//    @Bean
+//    public MemberRepository memberRepository(){
 //        return new MemoryMemberRepository();
 //        return new JdbcMemberRepository(dataSource); // Java 코드로 스프링 빈 등록의 장점
 //        return new JdbcTemplateMemberRepository(dataSource);
-        return new JpaMemberRepository(em);
-    }
+//        return new JpaMemberRepository(em);
+//    }
 }
